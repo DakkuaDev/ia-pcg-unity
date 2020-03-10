@@ -6,6 +6,7 @@ using UnityEngine;
 public class FPSController : MonoBehaviour
 {
     public float speed = 10;
+    public float angularSpeed = 180;
     CharacterController cc;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class FPSController : MonoBehaviour
         var hztal = Input.GetAxis("Horizontal");
         var vtcal = Input.GetAxis("Vertical");
 
-        cc.SimpleMove(new Vector3(hztal,0,vtcal) * speed);
+        cc.SimpleMove(transform.forward * vtcal * speed);
+        transform.Rotate(Vector3.up * hztal * angularSpeed * Time.deltaTime);
     }
 }
