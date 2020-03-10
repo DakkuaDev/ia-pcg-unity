@@ -294,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 15
   height: 13
-  wallProbability: 0.15
+  wallProbability: 0.05
   baseWallPrefab: {fileID: 8635879098366014134, guid: ce3223fa1e0e59e41a094db405e71b29,
     type: 3}
   baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,

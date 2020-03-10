@@ -13,6 +13,7 @@ public class MazeGenerator : MonoBehaviour
 
     public float wallWidth = 3;
     public float wallHeight = 2;
+    public GameObject playerPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,12 @@ public class MazeGenerator : MonoBehaviour
         Debug.Log(data);
 
         GeneratePhysicMaze(maze);
+
+        var pos = FindStartPosition();
+        if (pos.x != -1 && pos.y != -1)
+        {
+            var player = (GameObject) Instantiate(playerPrefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity);
+        }
     }
 
     int[,] GenerateMazeData(int w, int h)
@@ -92,6 +99,23 @@ public class MazeGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Vector2 FindStartPosition()
+    {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                // first empty space is our start goal
+                if (maze[x,y] == 0)
+                {
+                    return new Vector2(x * wallWidth, -y * wallWidth);
+                }
+            }
+        }
+
+        return new Vector2(-1,-1);
     }
 
     // Update is called once per frame
