@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &534669903
 AudioListener:
   m_ObjectHideFlags: 0
@@ -299,6 +299,7 @@ MonoBehaviour:
     type: 3}
   baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,
     type: 3}
+  seed: 502
   wallWidth: 3
   wallHeight: 2
   playerPrefab: {fileID: 128287519892849106, guid: 108c5cad790dc5541998bc905e9c8fbc,
