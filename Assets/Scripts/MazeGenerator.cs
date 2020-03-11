@@ -10,6 +10,7 @@ public class MazeGenerator : MonoBehaviour
     public int[,] maze = null;
     public GameObject baseWallPrefab;
     public GameObject baseFloorPrefab;
+    public int seed = -1;
 
     public float wallWidth = 3;
     public float wallHeight = 2;
@@ -18,7 +19,11 @@ public class MazeGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maze = GenerateMazeData(width, height);
+        if (seed == -1)
+        {
+            seed = (int)(Random.value * 100000);
+        }
+        maze = GenerateMazeData(seed, width, height);
 
         string data = "";
         for (int y = 0; y < height; ++y)
@@ -38,7 +43,7 @@ public class MazeGenerator : MonoBehaviour
         }
         Debug.Log(data);
 
-        GeneratePhysicMaze(maze);
+        MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseFloorPrefab, wallWidth, wallHeight);
 
         var pos = FindStartPosition();
         if (pos.x != -1 && pos.y != -1)
@@ -47,10 +52,11 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    int[,] GenerateMazeData(int w, int h)
+    int[,] GenerateMazeData(int s, int w, int h)
     {
+        System.Random r = new System.Random(s);
+
         int [,] ret = new int[w, h];
-        
         for (int y = 0; y < h; ++y)
         {
             for (int x = 0; x < w; ++x)
@@ -61,12 +67,12 @@ public class MazeGenerator : MonoBehaviour
                 }
                 else if ((y%2) == 0 && (x%2) == 0)
                 {
-                    if (Random.value > wallProbability)
+                    if (r.NextDouble() > wallProbability)
                     {
                         ret[x,y] = 1;
 
-                        int a = Random.value < 0.5f ? 0 : (Random.value < 0.5 ? 1 : -1);
-                        int b = a != 0 ? 0 : (Random.value < 0.5f ? 1 : -1);
+                        int a = r.NextDouble() < 0.5f ? 0 : (r.NextDouble() < 0.5 ? 1 : -1);
+                        int b = a != 0 ? 0 : (r.NextDouble() < 0.5f ? 1 : -1);
                         ret[x+a, y+b] = 1;
                     }
                 }
@@ -76,30 +82,7 @@ public class MazeGenerator : MonoBehaviour
         return ret;
     }
 
-    public void GeneratePhysicMaze(int[,] m)
-    {
-        int w = m.GetUpperBound(0);
-        int h = m.GetUpperBound(1);
-
-        for (int y = 0; y <= h; ++y)
-        {
-            for (int x = 0; x <= w; ++x)
-            {
-                if (m[x,y] == 1)
-                {
-                    var wall = (GameObject) Instantiate(baseWallPrefab, new Vector3(x * wallWidth, 0, -y * wallWidth), Quaternion.identity);
-                    wall.transform.SetParent(transform);
-                    wall.name = "Wall" + x +"_" + y;
-                }
-                else
-                {
-                    var floor = (GameObject) Instantiate(baseFloorPrefab, new Vector3(x * wallWidth, -wallHeight*.5f, -y * wallWidth), Quaternion.identity);
-                    floor.transform.SetParent(transform);
-                    floor.name = "Floor" + x +"_" + y;
-                }
-            }
-        }
-    }
+    
 
     private Vector2 FindStartPosition()
     {
