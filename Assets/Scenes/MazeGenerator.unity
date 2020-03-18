@@ -358,10 +358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb221d73c597d744b88d744cec86ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 23
-  height: 19
-  startGenerationWallThreshold: 0.1
+  width: 50
+  height: 50
+  startRandom: 1
+  startGenerationWallThreshold: 0.2
+  tunnelsForStartGeneration: 100
+  tunnelsSizeForStartGeneration: 30
   numberOfGenerations: 3
+  bornRule: 03000000
+  surviveRule: 0100000002000000030000000400000005000000
   baseWallPrefab: {fileID: 8635879098366014134, guid: ce3223fa1e0e59e41a094db405e71b29,
     type: 3}
   baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,

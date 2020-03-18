@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MazeGeneratorCA : MonoBehaviour
 {
     public int width = 10;
     public int height = 10;
+    public bool startRandom = true;
     public float startGenerationWallThreshold = 0.2f;
     public int tunnelsForStartGeneration = 10;
     public int tunnelsSizeForStartGeneration = 5;
     public int numberOfGenerations = 50;
+    public int[] bornRule = { 3 };
+    public int[] surviveRule = {1,2,3,4,5};
 
     public int[,] maze = null;
 
@@ -65,17 +69,21 @@ public class MazeGeneratorCA : MonoBehaviour
 
         int[,] ret = new int[w, h];
 
-        /*
         // random start
-        for (int y = 0; y < h; ++y)
+        if (startRandom)
         {
-            for (int x = 0; x < w; ++x)
+            for (int y = 0; y < h; ++y)
             {
-                ret[x, y] = r.NextDouble() < startGenerationWallThreshold ? 1 : 0;
+                for (int x = 0; x < w; ++x)
+                {
+                    ret[x, y] = r.NextDouble() < startGenerationWallThreshold ? 1 : 0;
+                }
             }
         }
-        */
-        ret = GetComponent<MazeGeneratorWalker>().GenerateMazeData(s, w, h, tunnelsForStartGeneration, tunnelsSizeForStartGeneration);
+        else
+        {
+            ret = GetComponent<MazeGeneratorWalker>().GenerateMazeData(s, w, h, tunnelsForStartGeneration, tunnelsSizeForStartGeneration);
+        }
 
         PrintMazeData(ret, 0);
 
@@ -124,11 +132,11 @@ public class MazeGeneratorCA : MonoBehaviour
     int ApplyRules(int x, int y, int[,] m)
     {
         int neighbours = NumberOfNeighbours(x, y, m);
-        if (m[x,y] == 0 && neighbours == 3)
+        if (m[x,y] == 0 && bornRule.Contains(neighbours))
         {
             return 1;
         }
-        else if (m[x,y] == 1 && neighbours >= 1 && neighbours <=5)
+        else if (m[x,y] == 1 && surviveRule.Contains(neighbours))
         {
             return 1;
         }
