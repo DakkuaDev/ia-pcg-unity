@@ -64,7 +64,7 @@ public class MazeGeneratorWalker : MonoBehaviour
         }
     }
 
-    int[,] GenerateMazeData(int s, int w, int h, int t, int l)
+    public int[,] GenerateMazeData(int s, int w, int h, int t, int l)
     {
         System.Random r = new System.Random(s);
 

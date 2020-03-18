@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  angularSpeed: 180
 --- !u!1 &2797825938715399687
 GameObject:
   m_ObjectHideFlags: 0
