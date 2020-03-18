@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class MazeGeneratorCA : MonoBehaviour
 {
-    public enum Direction : int
-    {
-        North,
-        South,
-        West,
-        East,
-        None,
-    }
-
     public int width = 10;
     public int height = 10;
     public float startGenerationWallThreshold = 0.2f;
+    public int tunnelsForStartGeneration = 10;
+    public int tunnelsSizeForStartGeneration = 5;
     public int numberOfGenerations = 50;
 
     public int[,] maze = null;
@@ -72,7 +65,7 @@ public class MazeGeneratorCA : MonoBehaviour
 
         int[,] ret = new int[w, h];
 
-
+        /*
         // random start
         for (int y = 0; y < h; ++y)
         {
@@ -81,6 +74,8 @@ public class MazeGeneratorCA : MonoBehaviour
                 ret[x, y] = r.NextDouble() < startGenerationWallThreshold ? 1 : 0;
             }
         }
+        */
+        ret = GetComponent<MazeGeneratorWalker>().GenerateMazeData(s, w, h, tunnelsForStartGeneration, tunnelsSizeForStartGeneration);
 
         PrintMazeData(ret, 0);
 
@@ -133,7 +128,7 @@ public class MazeGeneratorCA : MonoBehaviour
         {
             return 1;
         }
-        else if (m[x,y] == 1 && neighbours >= 1 && neighbours <=4)
+        else if (m[x,y] == 1 && neighbours >= 1 && neighbours <=5)
         {
             return 1;
         }
