@@ -28,9 +28,14 @@ public class MazeGeneratorWalker : MonoBehaviour
     public float wallHeight = 2;
     public GameObject playerPrefab;
 
+    public GameObject levelCenitalCamera;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Cenital Camera
+        levelCenitalCamera.transform.position =  CenitalCameraPos();
+
         if (seed == -1)
         {
             seed = (int)(Random.value * 100000);
@@ -197,6 +202,12 @@ public class MazeGeneratorWalker : MonoBehaviour
         }
 
         return new Vector2(-1, -1);
+    }
+
+    // Automatic Cenital Camera Position
+    private Vector3 CenitalCameraPos()
+    {
+        return new Vector3(transform.position.x + width, transform.position.y + width * 4, transform.position.z - height);
     }
 
     // Update is called once per frame
