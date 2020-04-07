@@ -18,6 +18,7 @@ public class MazeGeneratorCA : MonoBehaviour
     public int[,] maze = null;
 
     public GameObject baseWallPrefab;
+    public GameObject baseWallPrefab2;
     public GameObject baseFloorPrefab;
     public int seed = -1;
 
@@ -33,7 +34,7 @@ public class MazeGeneratorCA : MonoBehaviour
             seed = (int)(Random.value * 100000);
         }
         maze = GenerateMazeData(seed, width, height, numberOfGenerations);
-        MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseFloorPrefab, wallWidth, wallHeight);
+        MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseWallPrefab2, baseFloorPrefab, wallWidth, wallHeight);
 
         var pos = FindStartPosition();
         if (pos.x != -1 && pos.y != -1)

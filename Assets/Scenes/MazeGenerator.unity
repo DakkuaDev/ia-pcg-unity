@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -88,7 +88,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 4cf9e366e8cb04145b45c22723248d91,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -215,9 +216,9 @@ MonoBehaviour:
   width: 17
   height: 13
   wallProbability: 0.05
-  baseWallPrefab: {fileID: 8635879098366014134, guid: ce3223fa1e0e59e41a094db405e71b29,
+  baseWallPrefab: {fileID: 6154075142473243532, guid: c0f6c44106174f14595397ae0c37185f,
     type: 3}
-  baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,
+  baseFloorPrefab: {fileID: 908912335062697864, guid: a87d72f13da2dfe4b94d48a16cdfd671,
     type: 3}
   seed: -1
   wallWidth: 3
@@ -251,15 +252,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2429e8b6d995b4eaade016bf124baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 5
-  height: 5
+  width: 25
+  height: 25
   tunnels: 50
   maxLength: 10
-  baseWallPrefab: {fileID: 8635879098366014134, guid: ce3223fa1e0e59e41a094db405e71b29,
+  baseWallPrefab: {fileID: 6154075142473243532, guid: c0f6c44106174f14595397ae0c37185f,
     type: 3}
-  baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,
+  baseWallPrefab2: {fileID: 3886315610272576572, guid: 69f3b03e1151c0a4b8d49d31b7e37ecd,
     type: 3}
-  seed: -1
+  baseFloorPrefab: {fileID: 908912335062697864, guid: a87d72f13da2dfe4b94d48a16cdfd671,
+    type: 3}
+  seed: 2934
   wallWidth: 3
   wallHeight: 2
   playerPrefab: {fileID: 2307970506144641938, guid: 108c5cad790dc5541998bc905e9c8fbc,
@@ -286,9 +289,11 @@ MonoBehaviour:
   numberOfGenerations: 2
   bornRule: 03000000
   surviveRule: 0100000002000000030000000400000005000000
-  baseWallPrefab: {fileID: 8635879098366014134, guid: ce3223fa1e0e59e41a094db405e71b29,
+  baseWallPrefab: {fileID: 6154075142473243532, guid: c0f6c44106174f14595397ae0c37185f,
     type: 3}
-  baseFloorPrefab: {fileID: 8034356508447301989, guid: b6e0ea83e9e7f7b4b8223a9e7776c21b,
+  baseWallPrefab2: {fileID: 3886315610272576572, guid: 69f3b03e1151c0a4b8d49d31b7e37ecd,
+    type: 3}
+  baseFloorPrefab: {fileID: 908912335062697864, guid: a87d72f13da2dfe4b94d48a16cdfd671,
     type: 3}
   seed: -1
   wallWidth: 3

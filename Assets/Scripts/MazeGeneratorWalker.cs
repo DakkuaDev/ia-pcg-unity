@@ -21,8 +21,13 @@ public class MazeGeneratorWalker : MonoBehaviour
     public int[,] maze = null;
 
     public GameObject baseWallPrefab;
+    public GameObject baseWallPrefab2;
     public GameObject baseFloorPrefab;
+   
     public int seed = -1;
+    private System.Random _rdmPrefab;
+    private int waitPrefab = 0;
+
 
     public float wallWidth = 3;
     public float wallHeight = 2;
@@ -59,8 +64,9 @@ public class MazeGeneratorWalker : MonoBehaviour
             data += "\n";
         }
         Debug.Log(data);
+        
 
-        MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseFloorPrefab, wallWidth, wallHeight);
+        MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseWallPrefab2, baseFloorPrefab, wallWidth, wallHeight);
 
         var pos = FindStartPosition();
         if (pos.x != -1 && pos.y != -1)
@@ -80,7 +86,20 @@ public class MazeGeneratorWalker : MonoBehaviour
         {
             for (int x = 0; x < w; ++x)
             {
-                ret[x, y] = 1;
+                //Random.seed = System.DateTime.Now.Millisecond;
+                _rdmPrefab = new System.Random();
+                int generateNumber = _rdmPrefab.Next(1,10);
+
+                if (generateNumber < 9 && waitPrefab == 0) {
+                    ret[x, y] = 2;
+                    waitPrefab = 10;               
+                } 
+                else {
+                    ret[x, y] = 1;
+                    if(waitPrefab > 0) waitPrefab--;
+                }
+
+                Debug.Log(ret[x, y]);
             }
         }
 
@@ -122,7 +141,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                         if (currentY > 1)
                         {
                             currentY--;
-                            if (ret[currentX, currentY] == 1)
+                            if (ret[currentX, currentY] == 1 || ret[currentX, currentY] == 2)
                             {
                                 ret[currentX, currentY] = 0;
                                 currentTunnelLenght++;
@@ -135,7 +154,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                         if (currentY < h-2)
                         {
                             currentY++;
-                            if (ret[currentX, currentY] == 1)
+                            if (ret[currentX, currentY] == 1 || ret[currentX, currentY] == 2)
                             {
                                 ret[currentX, currentY] = 0;
                                 currentTunnelLenght++;
@@ -148,7 +167,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                         if (currentX > 1)
                         {
                             currentX--;
-                            if (ret[currentX, currentY] == 1)
+                            if (ret[currentX, currentY] == 1 || ret[currentX, currentY] == 2)
                             {
                                 ret[currentX, currentY] = 0;
                                 currentTunnelLenght++;
@@ -161,7 +180,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                         if (currentX < w-2)
                         {
                             currentX++;
-                            if (ret[currentX, currentY] == 1)
+                            if (ret[currentX, currentY] == 1 || ret[currentX, currentY] == 2)
                             {
                                 ret[currentX, currentY] = 0;
                                 currentTunnelLenght++;
@@ -209,6 +228,7 @@ public class MazeGeneratorWalker : MonoBehaviour
     {
         return new Vector3(transform.position.x + width, transform.position.y + width * 4, transform.position.z - height);
     }
+
 
     // Update is called once per frame
     void Update()
