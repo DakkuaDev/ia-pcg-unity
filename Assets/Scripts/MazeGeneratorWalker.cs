@@ -13,21 +13,38 @@ public class MazeGeneratorWalker : MonoBehaviour
         None,
     }
 
-    public int width = 10;
-    public int height = 10;
-    public int tunnels = 5;
-    public int maxLength = 4;
+    private enum prefabfType
+    {
+        none,
+        coin,
+        staticEnemy,
+        relativeEnemy,
+
+    }
+
+    prefabfType prefab = prefabfType.none;
+
+    public int width = 25;
+    public int height = 25;
+    public int tunnels = 50;
+    public int maxLength = 10;
 
     public int[,] maze = null;
 
     public GameObject baseWallPrefab;
     public GameObject baseWallPrefab2;
     public GameObject baseFloorPrefab;
+
     public GameObject coinPrefab;
+    public GameObject coinParent;
+
+    public GameObject enemyPrefab;
+    public GameObject enemyParent;
    
     public int seed = -1;
     private System.Random _rdmPrefab;
     private int waitPrefab = 0;
+    Vector2 prefabPos = new Vector2(0,0);
 
 
     public float wallWidth = 3;
@@ -35,6 +52,9 @@ public class MazeGeneratorWalker : MonoBehaviour
     public GameObject playerPrefab;
 
     public GameObject levelCenitalCamera;
+
+    private List<Vector2> oldVector = new List<Vector2>();
+    //int newX, newY = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -69,23 +89,65 @@ public class MazeGeneratorWalker : MonoBehaviour
 
         MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseWallPrefab2, baseFloorPrefab, wallWidth, wallHeight);
 
-        for(int i = 0; i < 150; i++){
-            
-            var coinpos = FindCoinPosition();
+        // Coin and Enemies Position
 
-            if (coinpos.x != -1 && coinpos.y != -1)
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
             {
-                var coin = (GameObject)Instantiate(coinPrefab, new Vector3(coinpos.x, 0, coinpos.y), Quaternion.identity);
+                // If there is floor
+                if (maze[x, y] == 0)
+                {
+                    prefab = prefabfType.none;
+                    var r = x * y;
+
+                   // int avgPrefab = r.Next(1, 101);
+
+                    //prefab = prefabfType.coin;
+                    //prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
+
+                    if (r < 50)
+                    {
+
+                       // if (avgPrefab < 75)
+                       // {
+                            prefab = prefabfType.coin;
+                            prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
+                       // }
+
+                    }
+                    else
+                    {
+                        prefab = prefabfType.staticEnemy;
+                        prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
+                    }
+
+                    switch (prefab)
+                    {
+                        case prefabfType.coin:
+                            var coin = (GameObject)Instantiate(coinPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
+                            coin.transform.SetParent(coinParent.transform);
+                            coin.name = "Coin" + prefabPos.x + "_" + prefabPos.y;
+                            break;
+                        case prefabfType.staticEnemy:
+                            var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
+                            enemy.transform.SetParent(enemyParent.transform);
+                            enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
+                            break;
+
+                        case prefabfType.none: break;
+                    }
+                }
             }
         }
-        
-    
 
-        var pos = FindStartPosition();
+
+        // Player Position
+        var playerPos = FindStartPosition();
         
-        if (pos.x != -1 && pos.y != -1)
+        if (playerPos.x != -1 && playerPos.y != -1)
         {
-            var player = (GameObject)Instantiate(playerPrefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity);
+            var player = (GameObject)Instantiate(playerPrefab, new Vector3(playerPos.x, 0, playerPos.y), Quaternion.identity);
         }
     }
 
@@ -218,7 +280,7 @@ public class MazeGeneratorWalker : MonoBehaviour
         return ret;
     }
 
-
+   
 
     private Vector2 FindStartPosition()
     {
@@ -237,29 +299,6 @@ public class MazeGeneratorWalker : MonoBehaviour
         return new Vector2(-1, -1);
     }
 
-    private Vector2 FindCoinPosition()
-    {
-        for (int y = 0; y < height; ++y)
-        {
-            for (int x = 0; x < width; ++x)
-            {
-                if (maze[x, y] == 0)
-                {
-                    _rdmPrefab = new System.Random();
-                    int generateNumber = _rdmPrefab.Next(1, 10);
-
-                    Debug.Log(generateNumber);
-
-                    if (generateNumber == 5 && x != 1)
-                    {
-                        return new Vector2(x * wallWidth, -y * wallWidth);
-                    }
-                }
-            }
-        }
-
-        return new Vector2(-1, -1);
-    }
 
     // Automatic Cenital Camera Position
     private Vector3 CenitalCameraPos()
