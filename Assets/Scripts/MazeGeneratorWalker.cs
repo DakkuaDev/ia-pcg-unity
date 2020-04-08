@@ -23,6 +23,7 @@ public class MazeGeneratorWalker : MonoBehaviour
     public GameObject baseWallPrefab;
     public GameObject baseWallPrefab2;
     public GameObject baseFloorPrefab;
+    public GameObject coinPrefab;
    
     public int seed = -1;
     private System.Random _rdmPrefab;
@@ -68,7 +69,20 @@ public class MazeGeneratorWalker : MonoBehaviour
 
         MatrixToPhysic.GeneratePhysicMaze(maze, transform, baseWallPrefab, baseWallPrefab2, baseFloorPrefab, wallWidth, wallHeight);
 
+        for(int i = 0; i < 150; i++){
+            
+            var coinpos = FindCoinPosition();
+
+            if (coinpos.x != -1 && coinpos.y != -1)
+            {
+                var coin = (GameObject)Instantiate(coinPrefab, new Vector3(coinpos.x, 0, coinpos.y), Quaternion.identity);
+            }
+        }
+        
+    
+
         var pos = FindStartPosition();
+        
         if (pos.x != -1 && pos.y != -1)
         {
             var player = (GameObject)Instantiate(playerPrefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity);
@@ -99,7 +113,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                     if(waitPrefab > 0) waitPrefab--;
                 }
 
-                Debug.Log(ret[x, y]);
+                //Debug.Log(ret[x, y]);
             }
         }
 
@@ -216,6 +230,30 @@ public class MazeGeneratorWalker : MonoBehaviour
                 if (maze[x, y] == 0)
                 {
                     return new Vector2(x * wallWidth, -y * wallWidth);
+                }
+            }
+        }
+
+        return new Vector2(-1, -1);
+    }
+
+    private Vector2 FindCoinPosition()
+    {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                if (maze[x, y] == 0)
+                {
+                    _rdmPrefab = new System.Random();
+                    int generateNumber = _rdmPrefab.Next(1, 10);
+
+                    Debug.Log(generateNumber);
+
+                    if (generateNumber == 5 && x != 1)
+                    {
+                        return new Vector2(x * wallWidth, -y * wallWidth);
+                    }
                 }
             }
         }
