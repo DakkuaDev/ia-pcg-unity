@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
@@ -10,18 +12,33 @@ public class FPSController : MonoBehaviour
     CharacterController cc;
     public Animator playerAnimator;
     public AudioSource coinFX;
+    static CanvasGroup CanvasOverlay;
+
 
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
         coinFX = GetComponent<AudioSource>();
+        
+        GameObject tempObject = GameObject.Find("Canvas");
+        if (tempObject != null)
+        {
+            //If we found the object , get the Canvas component from it.
+            CanvasOverlay = tempObject.GetComponent<CanvasGroup>();
+            if (CanvasOverlay == null)
+            {
+                Debug.Log("Could not locate Canvas component on " + tempObject.name);
+            }
+        }
+
+        CanvasOverlay.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         var hztal = Input.GetAxis("Horizontal");
         var vtcal = Input.GetAxis("Vertical");
 
@@ -39,6 +56,8 @@ public class FPSController : MonoBehaviour
         {
             playerAnimator.SetBool("Run", false);
         }
+
+
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -48,5 +67,21 @@ public class FPSController : MonoBehaviour
             hit.gameObject.SetActive(false);
             coinFX.Play();
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "enemy")
+        {
+            CanvasOverlay.gameObject.SetActive(true);
+            float timeToLoadScene = 1;
+            Invoke("ResetScene", timeToLoadScene);
+
+        }
+    }
+
+    void ResetScene()
+    {
+        SceneManager.LoadScene("MazeGenerator");
     }
 }

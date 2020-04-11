@@ -53,7 +53,7 @@ public class MazeGeneratorWalker : MonoBehaviour
 
     public GameObject levelCenitalCamera;
 
-    private List<Vector2> oldVector = new List<Vector2>();
+    //private List<Vector2> oldVector = new List<Vector2>();
     //int newX, newY = 0;
 
     // Start is called before the first frame update
@@ -91,38 +91,33 @@ public class MazeGeneratorWalker : MonoBehaviour
 
         // Coin and Enemies Position
 
-        for (int y = 0; y < height; y++)
+        int newInstance = 0;
+
+        for (int y = 0; y < height; ++y)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; ++x)
             {
-                // If there is floor
-                if (maze[x, y] == 0)
+                if (maze[x, y] == 0) newInstance++;
+                if(newInstance > 5)
                 {
+                    newInstance = 0;
                     prefab = prefabfType.none;
-                    var r = x * y;
 
-                   // int avgPrefab = r.Next(1, 101);
+                    int type = Random.Range(1, 3);
 
-                    //prefab = prefabfType.coin;
-                    //prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
 
-                    if (r < 50)
+                    if (type == 1)
                     {
-
-                       // if (avgPrefab < 75)
-                       // {
-                            prefab = prefabfType.coin;
-                            prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
-                       // }
-
+                        prefab = prefabfType.coin;
+                        prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
                     }
-                    else
+                    else if(type == 2)
                     {
                         prefab = prefabfType.staticEnemy;
                         prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
                     }
 
-                    switch (prefab)
+                switch (prefab)
                     {
                         case prefabfType.coin:
                             var coin = (GameObject)Instantiate(coinPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
@@ -130,14 +125,17 @@ public class MazeGeneratorWalker : MonoBehaviour
                             coin.name = "Coin" + prefabPos.x + "_" + prefabPos.y;
                             break;
                         case prefabfType.staticEnemy:
-                            var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
+                            var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 1.5f, prefabPos.y), Quaternion.identity);
+                            enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
                             enemy.transform.SetParent(enemyParent.transform);
                             enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
                             break;
 
                         case prefabfType.none: break;
                     }
+
                 }
+
             }
         }
 
@@ -284,6 +282,8 @@ public class MazeGeneratorWalker : MonoBehaviour
 
     private Vector2 FindStartPosition()
     {
+
+
         for (int y = 0; y < height; ++y)
         {
             for (int x = 0; x < width; ++x)
