@@ -12,6 +12,7 @@ public class FPSController : MonoBehaviour
     CharacterController cc;
     public Animator playerAnimator;
     public AudioSource coinFX;
+    public AudioSource dieFX;
     static CanvasGroup CanvasOverlay;
     static Transform playerPos;
 
@@ -19,9 +20,11 @@ public class FPSController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         cc = GetComponent<CharacterController>();
         coinFX = GetComponent<AudioSource>();
-        
+        //dieFX = GetComponent<AudioSource>();
+
         GameObject tempObject = GameObject.Find("Canvas");
         if (tempObject != null)
         {
@@ -62,6 +65,8 @@ public class FPSController : MonoBehaviour
         }
 
         playerPos.position = transform.position;
+
+
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -69,6 +74,7 @@ public class FPSController : MonoBehaviour
         if(hit.gameObject.tag == "Coin")
         {
             hit.gameObject.SetActive(false);
+            coinFX.pitch = Random.Range(0.75f, 1.25f);
             coinFX.Play();
         }
     }
@@ -78,8 +84,13 @@ public class FPSController : MonoBehaviour
         if(other.gameObject.tag == "enemy")
         {
             CanvasOverlay.gameObject.SetActive(true);
-            float timeToLoadScene = 1;
+            float timeToLoadScene = 0.5f;
+            dieFX.Play();
+
+            Time.timeScale = 0.25f;
+            
             Invoke("ResetScene", timeToLoadScene);
+      
 
         }
     }

@@ -659,10 +659,40 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4153218038726419747, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153218038726419747, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153218038726419747, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2331850171782814920, guid: a92147344bdf4c149a4528134eb8a504,
         type: 3}
       propertyPath: m_PixelPerfect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2331850171782814920, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_TargetDisplay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2331850171782814920, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2331850171782814920, guid: a92147344bdf4c149a4528134eb8a504,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4351316187202176739, guid: a92147344bdf4c149a4528134eb8a504,
         type: 3}

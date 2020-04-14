@@ -141,7 +141,7 @@ public class MazeGeneratorWalker : MonoBehaviour
                         case prefabfType.staticEnemy:
                             try
                             {
-                                var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 1.5f, prefabPos.y), Quaternion.identity);
+                                var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 0.5f, prefabPos.y), Quaternion.identity);
                                 enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
                                 enemy.transform.SetParent(enemyParent.transform);
                                 enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
