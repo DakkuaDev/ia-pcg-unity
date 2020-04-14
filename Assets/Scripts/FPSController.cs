@@ -13,6 +13,7 @@ public class FPSController : MonoBehaviour
     public Animator playerAnimator;
     public AudioSource coinFX;
     static CanvasGroup CanvasOverlay;
+    static Transform playerPos;
 
 
     // Start is called before the first frame update
@@ -33,6 +34,9 @@ public class FPSController : MonoBehaviour
         }
 
         CanvasOverlay.gameObject.SetActive(false);
+
+        playerPos = GameObject.Find("PlayerPos").GetComponentInParent<Transform>();
+        playerPos.transform.position = gameObject.transform.position;
 
     }
 
@@ -57,7 +61,7 @@ public class FPSController : MonoBehaviour
             playerAnimator.SetBool("Run", false);
         }
 
-
+        playerPos.position = transform.position;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -83,5 +87,10 @@ public class FPSController : MonoBehaviour
     void ResetScene()
     {
         SceneManager.LoadScene("MazeGenerator");
+    }
+
+    public float GetVelocity()
+    {
+        return speed;
     }
 }

@@ -120,15 +120,29 @@ public class MazeGeneratorWalker : MonoBehaviour
                 switch (prefab)
                     {
                         case prefabfType.coin:
-                            var coin = (GameObject)Instantiate(coinPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
-                            coin.transform.SetParent(coinParent.transform);
-                            coin.name = "Coin" + prefabPos.x + "_" + prefabPos.y;
+                            try
+                            {
+                                var coin = (GameObject)Instantiate(coinPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
+                                coin.transform.SetParent(coinParent.transform);
+                                coin.name = "Coin" + prefabPos.x + "_" + prefabPos.y;
+                            }
+                            catch (System.Exception)
+                            {
+                                return;
+                            }
                             break;
                         case prefabfType.staticEnemy:
-                            var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 1.5f, prefabPos.y), Quaternion.identity);
-                            enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
-                            enemy.transform.SetParent(enemyParent.transform);
-                            enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
+                            try
+                            {
+                                var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 1.5f, prefabPos.y), Quaternion.identity);
+                                enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
+                                enemy.transform.SetParent(enemyParent.transform);
+                                enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
+                            }
+                            catch (System.Exception)
+                            {
+                                return;
+                            }
                             break;
 
                         case prefabfType.none: break;
@@ -146,6 +160,9 @@ public class MazeGeneratorWalker : MonoBehaviour
         if (playerPos.x != -1 && playerPos.y != -1)
         {
             var player = (GameObject)Instantiate(playerPrefab, new Vector3(playerPos.x, 0, playerPos.y), Quaternion.identity);
+            GameObject.Find("PlayerPos").transform.position = player.transform.position;
+           // player.transform.SetParent(GameObject.Find("PlayerPos").transform);
+            
         }
     }
 
