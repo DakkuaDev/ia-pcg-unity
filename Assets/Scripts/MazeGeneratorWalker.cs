@@ -18,7 +18,7 @@ public class MazeGeneratorWalker : MonoBehaviour
         none,
         coin,
         staticEnemy,
-        relativeEnemy,
+        dinamicEnemy,
 
     }
 
@@ -39,7 +39,9 @@ public class MazeGeneratorWalker : MonoBehaviour
     public GameObject coinParent;
 
     public GameObject enemyPrefab;
+    public GameObject dinamicEnemyPrefab;
     public GameObject enemyParent;
+
    
     public int seed = -1;
     private System.Random _rdmPrefab;
@@ -103,17 +105,22 @@ public class MazeGeneratorWalker : MonoBehaviour
                     newInstance = 0;
                     prefab = prefabfType.none;
 
-                    int type = Random.Range(1, 3);
+                    int type = Random.Range(1, 8);
 
 
-                    if (type == 1)
+                    if (type <= 4)
                     {
                         prefab = prefabfType.coin;
                         prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
                     }
-                    else if(type == 2)
+                    else if(type > 4 && type < 6)
                     {
                         prefab = prefabfType.staticEnemy;
+                        prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
+                    }
+                    else if(type == 7)
+                    {
+                        prefab = prefabfType.dinamicEnemy;
                         prefabPos = new Vector2(x * wallWidth, -y * wallWidth);
                     }
 
@@ -135,6 +142,19 @@ public class MazeGeneratorWalker : MonoBehaviour
                             try
                             {
                                 var enemy = (GameObject)Instantiate(enemyPrefab, new Vector3(prefabPos.x, 1.5f, prefabPos.y), Quaternion.identity);
+                                enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
+                                enemy.transform.SetParent(enemyParent.transform);
+                                enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
+                            }
+                            catch (System.Exception)
+                            {
+                                return;
+                            }
+                            break;
+                        case prefabfType.dinamicEnemy:
+                            try
+                            {
+                                var enemy = (GameObject)Instantiate(dinamicEnemyPrefab, new Vector3(prefabPos.x, 0, prefabPos.y), Quaternion.identity);
                                 enemy.transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
                                 enemy.transform.SetParent(enemyParent.transform);
                                 enemy.name = "Enemy" + prefabPos.x + "_" + prefabPos.y;
