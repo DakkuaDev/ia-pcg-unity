@@ -8,7 +8,8 @@ Simple automatic maze generator based on the Preconditioned Conjugate Gradient A
 - Some items and collectibles with fx
 - Two enemies types: static and dynamic 
 
-![Captura](https://user-images.githubusercontent.com/61831013/125986150-6b222897-bf54-47b9-a680-3dcea67083da.PNG)
+![Captura](https://user-images.githubusercontent.com/61831013/125988102-0c50a258-67cf-4119-b00c-c741de83f130.PNG)
+![Captura2](https://user-images.githubusercontent.com/61831013/125988107-dae0a20e-84bc-47ce-a8ac-1014446dc2bb.PNG)
 
 Author: Daniel Guerra Gallardo
 
